@@ -1,18 +1,19 @@
 import { Schema, model } from 'mongoose';
 
-// Інтерфейс для об'єкта "Заєць"
-interface IRabbit {
-    name: string; // Ім'я зайця
-    age: number; // Вік зайця у роках
-    height: number; // Висота зайця в сантиметрах
-    weight: number; // Вага зайця в кілограмах
-    gender: 'male' | 'female'; // Стать зайця: 'male' - самець, 'female' - самка
-    description?: string; // Опис зайця (необов'язкове поле)
+// Інтерфейс для об'єкта "Ракун"
+interface IRakun {
+    name: string; // Ім'я зракуна
+    age: number; // Вік зракуна у роках
+    height: number; // Висота зракуна в сантиметрах
+    weight: number; // Вага зракуна в кілограмах
+    gender: 'male' | 'female'; // Стать зракуна: 'male' - самець, 'female' - самка
+    description?: string; // Опис зракуна (необов'язкове поле)
+    feedingHabits: string; //111
     dateAdded: Date; // Дата додавання запису до бази даних
 }
 
-// Схема MongoDB для моделі "Заєць"
-const rabbitSchema = new Schema<IRabbit>({
+// Схема MongoDB для моделі "Ракун"
+const rakunSchema = new Schema<IRakun>({
     name: {
         type: String,
         required: true, // Поле є обов'язковим
@@ -39,8 +40,12 @@ const rabbitSchema = new Schema<IRabbit>({
         type: Date,
         default: Date.now, // Значення за замовчуванням - поточна дата і час
     },
+    feedingHabits: {
+        type: String,
+        required: true,
+    },
 });
 
 // Створення моделі Mongoose на основі схеми
-export const Rabbit = model<IRabbit>('Rabbit', rabbitSchema);
-export type { IRabbit }; // Експортуємо інтерфейс для використання в інших файлах
+export const Rakun = model<IRakun>('Rakun', rakunSchema);
+export type { IRakun }; // Експортуємо інтерфейс для використання в інших файлах
