@@ -212,10 +212,9 @@ export const swaggerSpec = {
                         type: 'string',
                         description: "Опис коалу (необов'язкове поле)",
                     },
-                    eatenEucalyptus: {
+                    feedingHabits: {
                         type: 'string',
-                        description:
-                            'методи та частота пошуку їжі, одне зі списку [засідка, переслідування, сезонне накопичення запасів',
+                        description: 'методи та частота пошуку їжі',
                     },
                 },
             },

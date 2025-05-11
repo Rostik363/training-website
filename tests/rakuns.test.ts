@@ -69,8 +69,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 2.5,
                 gender: 'male' as const,
                 description: 'Сірий Ракун',
-                feedingHabits:
-                    'методи та частота пошуку їжі, одне зі списку [засідка, переслідування, сезонне накопичення запасів',
+                feedingHabits: 'сезонне накопичення запасів',
             };
 
             // Виконуємо POST-запит для створення запису про зракуна
@@ -90,6 +89,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                     expect(res.body).to.have.property('gender', rakun.gender);
                     expect(res.body).to.have.property('description', rakun.description);
                     expect(res.body).to.have.property('dateAdded');
+                    expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запас');
                     expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
                     done();
                 });
@@ -124,6 +124,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(new Date(res.body[0].dateAdded)).to.be.instanceOf(Date);
         });
     });
+
     // Тести для отримання запису конкретного зракуна за ID (GET-запит)
     describe('GET /api/rakuns/:id', () => {
         it('має отримати конкретного зракуна за id', async () => {
@@ -181,6 +182,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 2.5,
                 gender: 'female',
                 description: 'Оновлений опис',
+                feedingHabits: 'сезонне накопичення запасів',
             };
 
             // Виконуємо PUT-запит для повного оновлення запису про зракуна
@@ -199,6 +201,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body).to.have.property('description', 'Оновлений опис');
             expect(res.body).to.have.property('dateAdded');
             expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
+            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
         });
 
         it("має завершитися невдачею при відсутності обов'язкових полів", async () => {
@@ -221,6 +224,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 // height і weight відсутні
                 gender: 'female',
                 description: 'Оновлений опис',
+                feedingHabits: 'сезонне накопичення запасів',
             };
 
             // Виконуємо PUT-запит з неповними даними
@@ -237,6 +241,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(unchangedRakun).to.have.property('name', 'Оригінальний');
             expect(unchangedRakun).to.have.property('height', 25);
             expect(unchangedRakun).to.have.property('weight', 1.8);
+            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
         });
     });
 
@@ -278,6 +283,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body).to.have.property('gender', 'male');
             expect(res.body).to.have.property('description', 'Оновлений опис');
             expect(res.body).to.have.property('dateAdded');
+            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
             expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
         });
 
@@ -314,6 +320,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res).to.have.status(200);
             expect(res.body).to.have.property('name', 'Оновлений');
             expect(res.body).to.have.property('age', 2);
+            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
             // Ці поля мають зберегти свої початкові значення
             expect(res.body).to.have.property('height', 25);
             expect(res.body).to.have.property('weight', 1.8);
