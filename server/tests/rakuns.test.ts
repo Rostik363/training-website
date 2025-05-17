@@ -69,7 +69,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 2.5,
                 gender: 'male' as const,
                 description: 'Сірий ракун',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             };
 
             // Виконуємо POST-запит для створення запису про ракуніву
@@ -89,7 +89,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                     expect(res.body).to.have.property('gender', rakun.gender);
                     expect(res.body).to.have.property('description', rakun.description);
                     expect(res.body).to.have.property('dateAdded');
-                    expect(res.body).to.have.property('eatenEucalyptus', '2 кілограма');
+                    expect(res.body).to.have.property('feedingHabits', '2 кілограма');
                     expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
                     done();
                 });
@@ -107,7 +107,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 3.2,
                 gender: 'male',
                 description: 'Білий ракун',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             });
             await testRakun.save();
 
@@ -120,7 +120,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body[0]).to.have.property('gender', 'male');
             expect(res.body[0]).to.have.property('description', 'Білий ракун');
             expect(res.body[0]).to.have.property('dateAdded');
-            expect(res.body[0]).to.have.property('eatenEucalyptus', '2 кілограма');
+            expect(res.body[0]).to.have.property('feedingHabits', '2 кілограма');
             expect(new Date(res.body[0].dateAdded)).to.be.instanceOf(Date);
         });
     });
@@ -136,7 +136,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Коричневий ракун',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
@@ -149,7 +149,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body).to.have.property('weight', 1.8);
             expect(res.body).to.have.property('gender', 'male');
             expect(res.body).to.have.property('description', 'Коричневий ракун');
-            expect(res.body).to.have.property('eatenEucalyptus', '2 кілограма');
+            expect(res.body).to.have.property('feedingHabits', '2 кілограма');
         });
 
         it('має повернути 404 для неіснуючого ракуніву', async () => {
@@ -170,7 +170,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Початковий опис',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
@@ -182,7 +182,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 2.5,
                 gender: 'female',
                 description: 'Оновлений опис',
-                eatenEucalyptus: '3 кілограма',
+                feedingHabits: '3 кілограма',
             };
 
             // Виконуємо PUT-запит для повного оновлення запису про ракуніву
@@ -200,7 +200,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body).to.have.property('gender', 'female');
             expect(res.body).to.have.property('description', 'Оновлений опис');
             expect(res.body).to.have.property('dateAdded');
-            expect(res.body).to.have.property('eatenEucalyptus', '3 кілограма');
+            expect(res.body).to.have.property('feedingHabits', '3 кілограма');
             expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
         });
 
@@ -213,7 +213,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Початковий опис',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
@@ -224,7 +224,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 // height і weight відсутні
                 gender: 'female',
                 description: 'Оновлений опис',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             };
 
             // Виконуємо PUT-запит з неповними даними
@@ -241,7 +241,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(unchangedRakun).to.have.property('name', 'Оригінальний');
             expect(unchangedRakun).to.have.property('height', 25);
             expect(unchangedRakun).to.have.property('weight', 1.8);
-            expect(unchangedRakun).to.have.property('eatenEucalyptus', '2 кілограма');
+            expect(unchangedRakun).to.have.property('feedingHabits', '2 кілограма');
         });
     });
 
@@ -256,7 +256,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Початковий опис',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
@@ -265,7 +265,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 name: 'Частково оновлений',
                 age: 3,
                 description: 'Оновлений опис',
-                eatenEucalyptus: '3 кілограма',
+                feedingHabits: '3 кілограма',
             };
 
             // Виконуємо PATCH-запит
@@ -283,7 +283,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body).to.have.property('gender', 'male');
             expect(res.body).to.have.property('description', 'Оновлений опис');
             expect(res.body).to.have.property('dateAdded');
-            expect(res.body).to.have.property('eatenEucalyptus', '3 кілограма');
+            expect(res.body).to.have.property('feedingHabits', '3 кілограма');
             expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
         });
 
@@ -296,7 +296,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Початковий опис',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
@@ -307,7 +307,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 // height і weight навмисно відсутні
                 gender: 'female',
                 description: 'Оновлений опис',
-                eatenEucalyptus: '3 кілограма',
+                feedingHabits: '3 кілограма',
             };
 
             // Виконуємо PATCH-запит
@@ -320,7 +320,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res).to.have.status(200);
             expect(res.body).to.have.property('name', 'Оновлений');
             expect(res.body).to.have.property('age', 2);
-            expect(res.body).to.have.property('eatenEucalyptus', '3 кілограма');
+            expect(res.body).to.have.property('feedingHabits', '3 кілограма');
             // Ці поля мають зберегти свої початкові значення
             expect(res.body).to.have.property('height', 25);
             expect(res.body).to.have.property('weight', 1.8);
@@ -366,7 +366,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 2.1,
                 gender: 'female',
                 description: 'Чорний ракун',
-                eatenEucalyptus: '2 кілограма',
+                feedingHabits: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
