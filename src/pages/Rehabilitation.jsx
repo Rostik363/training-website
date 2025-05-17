@@ -414,7 +414,7 @@ function Rehabilitation() {  // Стан для зберігання даних 
                     <label htmlFor="eatenEucalyptus" className="col-sm-3 col-form-label">Частота пошуку їжі</label>
                     <div className="col-sm-9">
                       <input 
-                        type="text" 
+                        type="number" 
                         className="form-control" 
                         id="eatenEucalyptus" 
                         name="eatenEucalyptus" 
@@ -572,7 +572,7 @@ function Rehabilitation() {  // Стан для зберігання даних 
                     <label htmlFor="edit-eatenEucalyptus" className="col-sm-3 col-form-label">Частота пошуку їжі</label>
                     <div className="col-sm-9">
                       <input 
-                        type="text" 
+                        type="number" 
                         className="form-control" 
                         id="eatenEucalyptus" 
                         name="eatenEucalyptus" 
