@@ -210,7 +210,7 @@ export const swaggerSpec = {
                     },
                     description: {
                         type: 'string',
-                        description: "Опис коалу (необов'язкове поле)",
+                        description: "Опис ракуна (необов'язкове поле)",
                     },
                     feedingHabits: {
                         type: 'string',

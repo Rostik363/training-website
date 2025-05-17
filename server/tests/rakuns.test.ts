@@ -99,26 +99,26 @@ describe('API вебдодатку сайту про ракунів', () => {
     // Тести для отримання всіх записів ракунів (GET-запит)
     describe('GET /api/rakuns', () => {
         it('має отримати всіх эракунів', async () => {
-            // Створюємо тестовий запис коалу
+            // Створюємо тестовий запис ракуна
             const testRakun = new Rakun({
                 name: 'Білан',
                 age: 3,
                 height: 35,
                 weight: 3.2,
                 gender: 'male',
-                description: 'Білий коала',
+                description: 'Білий ракуніва',
                 feedingHabits: 'сезонне накопичення запасів',
             });
             await testRakun.save();
 
-            // Виконуємо GET-запит для отримання всіх записів коал
+            // Виконуємо GET-запит для отримання всіх записів ракунів
             const res = await chai.request(app).get('/api/rakuns');
             expect(res).to.have.status(200);
             expect(res.body).to.be.an('array');
             expect(res.body.length).to.equal(1);
             expect(res.body[0]).to.have.property('name', 'Білан');
             expect(res.body[0]).to.have.property('gender', 'male');
-            expect(res.body[0]).to.have.property('description', 'Білий коала');
+            expect(res.body[0]).to.have.property('description', 'Білий ракуніва');
             expect(res.body[0]).to.have.property('dateAdded');
             expect(res.body[0]).to.have.property('feedingHabits', 'сезонне накопичення запасів');
             expect(new Date(res.body[0].dateAdded)).to.be.instanceOf(Date);
