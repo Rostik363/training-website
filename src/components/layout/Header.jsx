@@ -22,11 +22,11 @@ function Header() {
         <div className="logo-container">
           <Link to="/" className="text-white text-decoration-none d-flex align-items-center">
             <img 
-              src="/images/Rakun.jpg" 
+              src="/images/everyday-carry-flickr-3bsjpg.webp" 
               alt="Ракун" 
               className="site-logo rounded-circle me-2"
             />
-            <span className="fs-4">Сайт про Ракунів</span>
+            <span className="fs-4">Сайт про ракунів</span>
           </Link>
         </div>
 
@@ -35,21 +35,20 @@ function Header() {
             Головна
           </Link>
           <Link to="/morphology" className={`nav-link text-white ${location.pathname === '/morphology' ? 'active' : ''}`}>
-            Зовнішній вигляд Ракунів
+            Зовнішній вигляд ракунів
           </Link>
           <Link to="/nutrition" className={`nav-link text-white ${location.pathname === '/nutrition' ? 'active' : ''}`}>
-            Харчування Ракунів
+            Харчування ракунів
           </Link>
           <Link to="/population" className={`nav-link text-white ${location.pathname === '/population' ? 'active' : ''}`}>
-            Ареал Ракунів
+            Ареал ракунів
           </Link>
           <Link to="/photo" className={`nav-link text-white ${location.pathname === '/photo' ? 'active' : ''}`}>
-            Фотографії Ракунів
+            Фотографії ракунів
           </Link>
-           <Link to="/rehabilitation" className={`nav-link text-white ${location.pathname === '/rehabilitation' ? 'active' : ''}`}>
+          <Link to="/rehabilitation" className={`nav-link text-white ${location.pathname === '/rehabilitation' ? 'active' : ''}`}>
             Реабілітація
           </Link>
-
         </nav>
 
         <div className="search-container">

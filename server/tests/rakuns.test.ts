@@ -17,7 +17,7 @@ describe('API вебдодатку сайту про ракунів', () => {
     // Отримуємо екземпляр бази даних з контейнера
     const database = container.get<IDatabase>(TYPES.IDatabase);
     // Створюємо спеціальний URI для тестової бази даних
-    const testMongoURI = MONGODB_URI.replace(/\/[^/]*$/, '/rasuns-test');
+    const testMongoURI = MONGODB_URI.replace(/\/[^/]*$/, '/rakuns-test');
 
     // Перед запуском тестів підключаємось до тестової бази даних
     before(async () => {
@@ -58,21 +58,21 @@ describe('API вебдодатку сайту про ракунів', () => {
         await Rakun.deleteMany({});
     });
 
-    // Тести для створення запису про нового зракуна (POST-запит)
+    // Тести для створення запису про нового ракуніву (POST-запит)
     describe('POST /api/rakuns', () => {
-        it('має створити запис про нового зракуна', done => {
-            // Тестові дані зракуна
+        it('має створити запис про нового ракуніву', done => {
+            // Тестові дані ракуніву
             const rakun = {
                 name: 'Вухань',
                 age: 2,
                 height: 30,
                 weight: 2.5,
                 gender: 'male' as const,
-                description: 'Сірий Ракун',
-                feedingHabits: 'сезонне накопичення запасів',
+                description: 'Сірий ракун',
+                eatenEucalyptus: '2 кілограма',
             };
 
-            // Виконуємо POST-запит для створення запису про зракуна
+            // Виконуємо POST-запит для створення запису про ракуніву
             chai.request(app)
                 .post('/api/rakuns')
                 .send(rakun)
@@ -89,7 +89,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                     expect(res.body).to.have.property('gender', rakun.gender);
                     expect(res.body).to.have.property('description', rakun.description);
                     expect(res.body).to.have.property('dateAdded');
-                    expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запас');
+                    expect(res.body).to.have.property('eatenEucalyptus', '2 кілограма');
                     expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
                     done();
                 });
@@ -98,16 +98,16 @@ describe('API вебдодатку сайту про ракунів', () => {
 
     // Тести для отримання всіх записів ракунів (GET-запит)
     describe('GET /api/rakuns', () => {
-        it('має отримати всіх эракунів', async () => {
-            // Створюємо тестовий запис ракуна
+        it('має отримати всіх ракунів', async () => {
+            // Створюємо тестовий запис ракуніву
             const testRakun = new Rakun({
                 name: 'Білан',
                 age: 3,
                 height: 35,
                 weight: 3.2,
                 gender: 'male',
-                description: 'Білий ракуніва',
-                feedingHabits: 'сезонне накопичення запасів',
+                description: 'Білий ракун',
+                eatenEucalyptus: '2 кілограма',
             });
             await testRakun.save();
 
@@ -118,17 +118,17 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body.length).to.equal(1);
             expect(res.body[0]).to.have.property('name', 'Білан');
             expect(res.body[0]).to.have.property('gender', 'male');
-            expect(res.body[0]).to.have.property('description', 'Білий ракуніва');
+            expect(res.body[0]).to.have.property('description', 'Білий ракун');
             expect(res.body[0]).to.have.property('dateAdded');
-            expect(res.body[0]).to.have.property('feedingHabits', 'сезонне накопичення запасів');
+            expect(res.body[0]).to.have.property('eatenEucalyptus', '2 кілограма');
             expect(new Date(res.body[0].dateAdded)).to.be.instanceOf(Date);
         });
     });
 
-    // Тести для отримання запису конкретного зракуна за ID (GET-запит)
+    // Тести для отримання запису конкретного ракуніву за ID (GET-запит)
     describe('GET /api/rakuns/:id', () => {
-        it('має отримати конкретного зракуна за id', async () => {
-            // Створюємо запис тестового зракуна
+        it('має отримати конкретного ракуніву за id', async () => {
+            // Створюємо запис тестового ракуніву
             const testRakun = new Rakun({
                 name: 'Косий',
                 age: 1,
@@ -136,11 +136,11 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Коричневий ракун',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
-            // Виконуємо GET-запит для отримання запису зракуна за ID
+            // Виконуємо GET-запит для отримання запису ракуніву за ID
             const res = await chai.request(app).get(`/api/rakuns/${String(savedRakun._id)}`);
             expect(res).to.have.status(200);
             expect(res.body).to.have.property('name', 'Косий');
@@ -149,20 +149,20 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body).to.have.property('weight', 1.8);
             expect(res.body).to.have.property('gender', 'male');
             expect(res.body).to.have.property('description', 'Коричневий ракун');
-            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
+            expect(res.body).to.have.property('eatenEucalyptus', '2 кілограма');
         });
 
-        it('має повернути 404 для неіснуючого зракуна', async () => {
-            // Виконуємо GET-запит для неіснуючого ID зракуна
+        it('має повернути 404 для неіснуючого ракуніву', async () => {
+            // Виконуємо GET-запит для неіснуючого ID ракуніву
             const res = await chai.request(app).get('/api/rakuns/654321654321654321654321');
             expect(res).to.have.status(404);
         });
     });
 
-    // Тести для повного оновлення запису про зракуна (PUT-запит)
+    // Тести для повного оновлення запису про ракуніву (PUT-запит)
     describe('PUT /api/rakuns/:id', () => {
-        it('має повністю оновити запис про зракуна', async () => {
-            // Створюємо тестового зракуна
+        it('має повністю оновити запис про ракуніву', async () => {
+            // Створюємо тестового ракуніву
             const testRakun = new Rakun({
                 name: 'Оригінальний',
                 age: 1,
@@ -170,11 +170,11 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Початковий опис',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
-            // Дані для оновлення зракуна
+            // Дані для оновлення ракуніву
             const updatedData = {
                 name: 'Оновлений',
                 age: 2,
@@ -182,10 +182,10 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 2.5,
                 gender: 'female',
                 description: 'Оновлений опис',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '3 кілограма',
             };
 
-            // Виконуємо PUT-запит для повного оновлення запису про зракуна
+            // Виконуємо PUT-запит для повного оновлення запису про ракуніву
             const res = await chai
                 .request(app)
                 .put(`/api/rakuns/${String(savedRakun._id)}`)
@@ -200,12 +200,12 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body).to.have.property('gender', 'female');
             expect(res.body).to.have.property('description', 'Оновлений опис');
             expect(res.body).to.have.property('dateAdded');
+            expect(res.body).to.have.property('eatenEucalyptus', '3 кілограма');
             expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
-            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
         });
 
         it("має завершитися невдачею при відсутності обов'язкових полів", async () => {
-            // Створюємо тестового зракуна
+            // Створюємо тестового ракуніву
             const testRakun = new Rakun({
                 name: 'Оригінальний',
                 age: 1,
@@ -213,7 +213,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Початковий опис',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
@@ -224,7 +224,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 // height і weight відсутні
                 gender: 'female',
                 description: 'Оновлений опис',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '2 кілограма',
             };
 
             // Виконуємо PUT-запит з неповними даними
@@ -241,14 +241,14 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(unchangedRakun).to.have.property('name', 'Оригінальний');
             expect(unchangedRakun).to.have.property('height', 25);
             expect(unchangedRakun).to.have.property('weight', 1.8);
-            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
+            expect(unchangedRakun).to.have.property('eatenEucalyptus', '2 кілограма');
         });
     });
 
-    // Тести для часткового оновлення запису про зракуна (PATCH-запит)
+    // Тести для часткового оновлення запису про ракуніву (PATCH-запит)
     describe('PATCH /api/rakuns/:id', () => {
-        it('має частково оновити запис про зракуна', async () => {
-            // Створюємо тестового зракуна
+        it('має частково оновити запис про ракуніву', async () => {
+            // Створюємо тестового ракуніву
             const testRakun = new Rakun({
                 name: 'Оригінальний',
                 age: 1,
@@ -256,7 +256,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Початковий опис',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
@@ -265,7 +265,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 name: 'Частково оновлений',
                 age: 3,
                 description: 'Оновлений опис',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '3 кілограма',
             };
 
             // Виконуємо PATCH-запит
@@ -283,12 +283,12 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res.body).to.have.property('gender', 'male');
             expect(res.body).to.have.property('description', 'Оновлений опис');
             expect(res.body).to.have.property('dateAdded');
-            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
+            expect(res.body).to.have.property('eatenEucalyptus', '3 кілограма');
             expect(new Date(res.body.dateAdded)).to.be.instanceOf(Date);
         });
 
         it('демонструє різницю між PATCH і PUT з частковими оновленнями', async () => {
-            // Створюємо тестового зракуна
+            // Створюємо тестового ракуніву
             const testRakun = new Rakun({
                 name: 'Оригінальний',
                 age: 1,
@@ -296,7 +296,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 1.8,
                 gender: 'male',
                 description: 'Початковий опис',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
@@ -307,7 +307,7 @@ describe('API вебдодатку сайту про ракунів', () => {
                 // height і weight навмисно відсутні
                 gender: 'female',
                 description: 'Оновлений опис',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '3 кілограма',
             };
 
             // Виконуємо PATCH-запит
@@ -320,7 +320,7 @@ describe('API вебдодатку сайту про ракунів', () => {
             expect(res).to.have.status(200);
             expect(res.body).to.have.property('name', 'Оновлений');
             expect(res.body).to.have.property('age', 2);
-            expect(res.body).to.have.property('feedingHabits', 'сезонне накопичення запасів');
+            expect(res.body).to.have.property('eatenEucalyptus', '3 кілограма');
             // Ці поля мають зберегти свої початкові значення
             expect(res.body).to.have.property('height', 25);
             expect(res.body).to.have.property('weight', 1.8);
@@ -355,10 +355,10 @@ describe('API вебдодатку сайту про ракунів', () => {
         });
     });
 
-    // Тести для видалення запису зракуна (DELETE-запит)
+    // Тести для видалення запису ракуніву (DELETE-запит)
     describe('DELETE /api/rakuns/:id', () => {
-        it('має видалити запис про зракуна', async () => {
-            // Створюємо тестового зракуна
+        it('має видалити запис про ракуніву', async () => {
+            // Створюємо тестового ракуніву
             const testRakun = new Rakun({
                 name: 'Стрибунець',
                 age: 2,
@@ -366,16 +366,16 @@ describe('API вебдодатку сайту про ракунів', () => {
                 weight: 2.1,
                 gender: 'female',
                 description: 'Чорний ракун',
-                feedingHabits: 'сезонне накопичення запасів',
+                eatenEucalyptus: '2 кілограма',
             });
             const savedRakun = await testRakun.save();
 
             // Виконуємо DELETE-запит
             const res = await chai.request(app).delete(`/api/rakuns/${String(savedRakun._id)}`);
             expect(res).to.have.status(200);
-            expect(res.body).to.have.property('message', 'Запис про зракуна видалено');
+            expect(res.body).to.have.property('message', 'Запис про ракуніву видалено');
 
-            // Перевіряємо, що запис про зракуна дійсно видалено з бази
+            // Перевіряємо, що запис про ракуніву дійсно видалено з бази
             const findRakun = await Rakun.findById(savedRakun._id);
             expect(findRakun).to.be.null;
         });

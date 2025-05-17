@@ -2,12 +2,12 @@ import { Router, Request, Response } from 'express';
 import { container } from '../config/container';
 import { RakunRepository } from '../repositories/RakunRepository';
 
-// Створюємо новий обробник HTTP-запитів Express
+// Створюємо новий роутер Express
 const router = Router();
 // Отримуємо екземпляр репозиторію ракунів з контейнера інверсії залежностей
 const rakunRepository = container.get(RakunRepository);
 
-// Обробка HTTP-запиту GET / - отримання всіх записів ракунів
+// Роутер для HTTP метода GET / - отримання всіх записів ракунів
 router.get('/', (async (_req: Request, res: Response) => {
     try {
         // Отримуємо всі записи ракунів з бази даних через репозиторій
@@ -20,16 +20,16 @@ router.get('/', (async (_req: Request, res: Response) => {
     }
 }) as unknown as (req: Request, res: Response) => void);
 
-// Обробка HTTP-запиту GET /:id - отримання запису одного зракуна за ідентифікатором
+// Роутер для HTTP метода GET /:id - отримання запису одного ракуніву за ідентифікатором
 router.get('/:id', (async (req: Request, res: Response) => {
     try {
-        // Пошук зракуна за ідентифікатором
+        // Пошук ракуніву за ідентифікатором
         const rakun = await rakunRepository.findById(req.params.id);
         if (rakun) {
             res.json(rakun);
         } else {
             // Якщо ракун не знайдений, повертаємо 404 помилку
-            res.status(404).json({ message: 'Запис зракуна не знайдено' });
+            res.status(404).json({ message: 'Запис ракуніву не знайдено' });
         }
     } catch (error) {
         // Обробка помилки
@@ -38,12 +38,12 @@ router.get('/:id', (async (req: Request, res: Response) => {
     }
 }) as unknown as (req: Request, res: Response) => void);
 
-// Обробка HTTP-запиту POST / - створення нового запису зракуна
+// Роутер для HTTP метода POST / - створення нового запису ракуніву
 router.post('/', (async (req: Request, res: Response) => {
     try {
-        // Створюємо новий запис зракуна з даних запиту
+        // Створюємо новий запис ракуни з даних запиту
         const newRakun = await rakunRepository.create(req.body);
-        // Повертаємо статус 201 (Created) і дані створеного зракуна
+        // Повертаємо статус 201 (Created) і дані створеного ракуніву
         res.status(201).json(newRakun);
     } catch (error) {
         // Обробка помилки
@@ -52,7 +52,7 @@ router.post('/', (async (req: Request, res: Response) => {
     }
 }) as unknown as (req: Request, res: Response) => void);
 
-// Обробка HTTP-запиту PUT /:id - повне оновлення запису зракуна
+// Роутер для HTTP метода PUT /:id - повне оновлення запису ракуніву
 router.put('/:id', (async (req: Request, res: Response) => {
     try {
         // Перевірка наявності всіх обов'язкових полів для PUT запиту
@@ -66,13 +66,13 @@ router.put('/:id', (async (req: Request, res: Response) => {
             });
         }
 
-        // Оновлюємо зракуна з вказаним ID
+        // Оновлюємо ракунів з вказаним ID
         const rakun = await rakunRepository.update(req.params.id, req.body);
         if (rakun) {
             return res.json(rakun);
         } else {
             // Якщо ракун не знайдений, повертаємо 404 помилку
-            return res.status(404).json({ message: 'Запис зракуна не знайдено' });
+            return res.status(404).json({ message: 'Запис ракуніву не знайдено' });
         }
     } catch (error) {
         // Обробка помилки
@@ -81,16 +81,16 @@ router.put('/:id', (async (req: Request, res: Response) => {
     }
 }) as unknown as (req: Request, res: Response) => void);
 
-// Обробка HTTP-запиту PATCH /:id - часткове оновлення запису зракуна
+// Роутер для HTTP метода PATCH /:id - часткове оновлення запису ракуніву
 router.patch('/:id', (async (req: Request, res: Response) => {
     try {
-        // Часткове оновлення запису зракуна - передаються лише ті поля, які потрібно змінити
+        // Часткове оновлення запису ракунів - передаються лише ті поля, які потрібно змінити
         const rakun = await rakunRepository.patch(req.params.id, req.body);
         if (rakun) {
             res.json(rakun);
         } else {
             // Якщо ракун не знайдений, повертаємо 404 помилку
-            res.status(404).json({ message: 'Запис зракуна не знайдено' });
+            res.status(404).json({ message: 'Запис ракуніву не знайдено' });
         }
     } catch (error) {
         // Обробка помилки
@@ -99,17 +99,17 @@ router.patch('/:id', (async (req: Request, res: Response) => {
     }
 }) as unknown as (req: Request, res: Response) => void);
 
-// Обробка HTTP-запиту DELETE /:id - видалення запису зракуна
+// Роутер для HTTP метода DELETE /:id - видалення запису ракуніву
 router.delete('/:id', (async (req: Request, res: Response) => {
     try {
-        // Видаляємо дані про зракуна за ID
+        // Видаляємо дані про ракуніву за ID
         const rakun = await rakunRepository.delete(req.params.id);
         if (rakun) {
             // У разі успіху повертаємо повідомлення про видалення
-            res.json({ message: 'Запис про зракуна видалено' });
+            res.json({ message: 'Запис про ракуніву видалено' });
         } else {
-            // Якщо ракун не знайдений, повертаємо 404 помилку
-            res.status(404).json({ message: 'Запис про зракуна не знайдено' });
+            // Якщо ракун не знайдена, повертаємо 404 помилку
+            res.status(404).json({ message: 'Запис про ракуніву не знайдено' });
         }
     } catch (error) {
         // Обробка помилки

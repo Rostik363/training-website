@@ -18,7 +18,7 @@ export const swaggerSpec = {
             description: 'Development server',
         },
     ],
-    // Визначення кінцевих точок (endpoints) REST API та операцій з ними
+    // Визначення роутерів API та операцій з ними
     paths: {
         '/api/rakuns': {
             // GET запит для отримання всіх ракунів
@@ -39,9 +39,9 @@ export const swaggerSpec = {
                 },
             },
 
-            // POST запит для створення нового зракуна
+            // POST запит для створення нового ракуніву
             post: {
-                summary: 'Створити нового зракуна',
+                summary: 'Створити нового ракуніву',
                 requestBody: {
                     required: true,
                     content: {
@@ -52,7 +52,7 @@ export const swaggerSpec = {
                 },
                 responses: {
                     '201': {
-                        description: "Створений об'єкт зракуна",
+                        description: "Створений об'єкт ракуніву",
                         content: {
                             'application/json': {
                                 schema: { $ref: '#/components/schemas/Rakun' },
@@ -63,45 +63,45 @@ export const swaggerSpec = {
             },
         },
 
-        // Операції для конкретного зракуна за ID
+        // Операції для конкретного ракуніву за ID
         '/api/rakuns/{id}': {
-            // GET запит для отримання зракуна за ID
+            // GET запит для отримання ракуніву за ID
             get: {
-                summary: 'Отримати зракуна за ID',
+                summary: 'Отримати ракуніву за ID',
                 parameters: [
                     {
                         in: 'path',
                         name: 'id',
                         required: true,
                         schema: { type: 'string' },
-                        description: 'ID зракуна',
-                        feedingHabits: '',
+                        description: 'ID ракуніву',
+                        eatenEucalyptus: '',
                     },
                 ],
                 responses: {
                     '200': {
-                        description: "Об'єкт зракуна",
+                        description: "Об'єкт ракуніву",
                         content: {
                             'application/json': {
                                 schema: { $ref: '#/components/schemas/Rakun' },
                             },
                         },
                     },
-                    '404': { description: 'Ракуна не знайдено' },
+                    '404': { description: 'Ракуніву не знайдено' },
                 },
             },
 
-            // PUT запит для повного оновлення зракуна за ID
+            // PUT запит для повного оновлення ракуніву за ID
             put: {
-                summary: 'Повністю оновити зракуна',
+                summary: 'Повністю оновити ракуніву',
                 parameters: [
                     {
                         in: 'path',
                         name: 'id',
                         required: true,
                         schema: { type: 'string' },
-                        description: 'ID зракуна',
-                        feedingHabits: '',
+                        description: 'ID ракуніву',
+                        eatenEucalyptus: '',
                     },
                 ],
                 requestBody: {
@@ -114,27 +114,27 @@ export const swaggerSpec = {
                 },
                 responses: {
                     '200': {
-                        description: "Оновлений об'єкт зракуна",
+                        description: "Оновлений об'єкт ракуніву",
                         content: {
                             'application/json': {
                                 schema: { $ref: '#/components/schemas/Rakun' },
                             },
                         },
                     },
-                    '404': { description: 'Ракуна не знайдено' },
+                    '404': { description: 'Ракуніву не знайдено' },
                 },
             },
-            // PATCH запит для часткового оновлення зракуна за ID
+            // PATCH запит для часткового оновлення ракуніву за ID
             patch: {
-                summary: 'Частково оновити зракуна',
+                summary: 'Частково оновити ракуніву',
                 parameters: [
                     {
                         in: 'path',
                         name: 'id',
                         required: true,
                         schema: { type: 'string' },
-                        description: 'ID зракуна',
-                        feedingHabits: '',
+                        description: 'ID ракуніву',
+                        eatenEucalyptus: '',
                     },
                 ],
                 requestBody: {
@@ -147,32 +147,32 @@ export const swaggerSpec = {
                 },
                 responses: {
                     '200': {
-                        description: "Оновлений об'єкт зракуна",
+                        description: "Оновлений об'єкт ракуніву",
                         content: {
                             'application/json': {
                                 schema: { $ref: '#/components/schemas/Rakun' },
                             },
                         },
                     },
-                    '404': { description: 'Ракуна не знайдено' },
+                    '404': { description: 'Ракуніву не знайдено' },
                 },
             },
-            // DELETE запит для видалення даних про зракуна за ID
+            // DELETE запит для видалення даних про ракуніву за ID
             delete: {
-                summary: 'Видалити дані про зракуна',
+                summary: 'Видалити дані про ракуніву',
                 parameters: [
                     {
                         in: 'path',
                         name: 'id',
                         required: true,
                         schema: { type: 'string' },
-                        description: 'ID зракуна',
-                        feedingHabits: '',
+                        description: 'ID ракуніву',
+                        eatenEucalyptus: '',
                     },
                 ],
                 responses: {
                     '200': { description: 'Повідомлення про успішне видалення' },
-                    '404': { description: 'Ракуна не знайдено' },
+                    '404': { description: 'Ракуніву не знайдено' },
                 },
             },
         },
@@ -189,32 +189,32 @@ export const swaggerSpec = {
                 properties: {
                     name: {
                         type: 'string',
-                        description: "Ім'я зракуна",
+                        description: "Ім'я ракуніву",
                     },
                     age: {
                         type: 'number',
-                        description: 'Вік зракуна у роках',
+                        description: 'Вік ракуніву у роках',
                     },
                     height: {
                         type: 'number',
-                        description: 'Висота зракуна в сантиметрах',
+                        description: 'Висота ракуніву в сантиметрах',
                     },
                     weight: {
                         type: 'number',
-                        description: 'Вага зракуна в кілограмах',
+                        description: 'Вага ракуніву в кілограмах',
                     },
                     gender: {
                         type: 'string',
                         enum: ['male', 'female'],
-                        description: 'Стать зракуна',
+                        description: 'Стать ракуніву',
                     },
                     description: {
                         type: 'string',
-                        description: "Опис ракуна (необов'язкове поле)",
+                        description: "Опис ракуніву (необов'язкове поле)",
                     },
-                    feedingHabits: {
+                    eatenEucalyptus: {
                         type: 'string',
-                        description: 'методи та частота пошуку їжі',
+                        description: 'Кількість зїдання  евкалипта в день',
                     },
                 },
             },

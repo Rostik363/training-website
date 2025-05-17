@@ -14,11 +14,11 @@ API реалізовано за допомогою вебфреймворку Ex
 ## API endpoints
 
 - `GET /api/rakuns` - отримати список всіх записів ракунів
-- `GET /api/rakuns/:id` - отримати дані про зракуна за ID
-- `POST /api/rakuns` - створити новий запис зракуна
-- `PUT /api/rakuns/:id` - повністю оновити запис зракуна за ID
-- `PATCH /api/rakuns/:id` - частково оновити запис зракуна за ID
-- `DELETE /api/rakuns/:id` - видалити дані про зракуна за ID
+- `GET /api/rakuns/:id` - отримати дані про ракуніву за ID
+- `POST /api/rakuns` - створити новий запис ракуніву
+- `PUT /api/rakuns/:id` - повністю оновити запис ракуніву за ID
+- `PATCH /api/rakuns/:id` - частково оновити запис ракуніву за ID
+- `DELETE /api/rakuns/:id` - видалити дані про ракуніву за ID
 - `HEAD /api/rakuns` - отримати метадані списку ракунів
 - `OPTIONS /api/rakuns` - отримати список доступних HTTP методів
 

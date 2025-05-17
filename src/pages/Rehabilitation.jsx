@@ -5,16 +5,16 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { API_BASE_URL } from '../config/api';
 import { Toast } from 'bootstrap';
 
-// Компонент для управління ракунівами, які перебувають на реабілітації, через API
+// Компонент для управління ракунми, які перебувають на реабілітації, через API
 function Rehabilitation() {  // Стан для зберігання даних та стану інтерфейсу
-  const [rakuns, setKoalas] = useState([]);
+  const [rakuns, setRakuns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // Стан для модального вікна видалення
-  const [rakunToDelete, setKoalaToDelete] = useState(null); // Ідентифікатор ракуніви для видалення
-  const [currentKoala, setCurrentKoala] = useState(null);
+  const [rakunToDelete, setRakunToDelete] = useState(null); // Ідентифікатор ракуни для видалення
+  const [currentRakun, setCurrentRakun] = useState(null);
   const [toastMessage, setToastMessage] = useState({ text: '', type: 'success' });
   
   // Посилання до елемента спливаючих сповіщень toast
@@ -27,13 +27,13 @@ function Rehabilitation() {  // Стан для зберігання даних 
     weight: '',
     gender: 'male',
     description: '',
-    feedingHabits : ''
+    eatenEucalyptus: ''
   });
 
   // При рендерингу компонента, отримуємо всіх ракунів
   useEffect(() => {
     document.title = 'Реабілітація ракунів - Сайт про ракунів';
-    fetchKoalas();
+    fetchRakuns();
   }, []);
 
   // Показуємо toast повідомлення, коли змінюється toastMessage
@@ -45,17 +45,17 @@ function Rehabilitation() {  // Стан для зберігання даних 
   }, [toastMessage]);
   
   // Отримуємо всіх ракунів з API
-  const fetchKoalas = async () => {
+  const fetchRakuns = async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${API_BASE_URL}/rakuns`);
-      setKoalas(Array.isArray(response.data) ? response.data : []);
+      setRakuns(Array.isArray(response.data) ? response.data : []);
 
     } catch (err) {
       setError(`Помилка завантаження даних: ${err.message}`);
       console.error('Помилка при отриманні даних про ракунів:', err);
-      setKoalas([]);
+      setRakuns([]);
 
     } finally {
       setLoading(false);
@@ -78,7 +78,7 @@ function Rehabilitation() {  // Стан для зберігання даних 
     });
   };
 
-  // Відкриваємо модальне вікно для додавання нової ракуніви
+  // Відкриваємо модальне вікно для додавання нової ракуни
   const handleShowAddModal = () => {
     setFormData({
       name: '',
@@ -91,9 +91,9 @@ function Rehabilitation() {  // Стан для зберігання даних 
     setShowAddModal(true);
   };
 
-  // Відкриваємо модальне вікно для редагування ракуніви
+  // Відкриваємо модальне вікно для редагування ракуни
   const handleShowEditModal = (rakun) => {
-    setCurrentKoala(rakun);
+    setCurrentRakun(rakun);
     setFormData({
       name: rakun.name,
       age: rakun.age,
@@ -105,46 +105,46 @@ function Rehabilitation() {  // Стан для зберігання даних 
     setShowEditModal(true);
   };
 
-  // Додаємо нову ракуна
-  const handleAddKoala = async (e) => {
+  // Додаємо нову ракуніву
+  const handleAddRakun = async (e) => {
     e.preventDefault();
     
     try {
       setLoading(true);
       const response = await axios.post(`${API_BASE_URL}/rakuns`, formData);
-      const newKoala = response.data;
-      setKoalas([...rakuns, newKoala]);
+      const newRakun = response.data;
+      setRakuns([...rakuns, newRakun]);
       setShowAddModal(false);
-      setToastMessage({ text: `Ракуніву "${newKoala.name}" успішно додано!`, type: 'success' });
+      setToastMessage({ text: `Ракуніву "${newRakun.name}" успішно додано!`, type: 'success' });
 
     } catch (err) {
       setError(`Помилка при створенні: ${err.message}`);
       setToastMessage({ text: `Помилка при створенні: ${err.message}`, type: 'danger' });
-      console.error('Помилка при додаванні ракуніви:', err);
+      console.error('Помилка при додаванні ракуни:', err);
 
     } finally {
       setLoading(false);
     }
   };
 
-  // Оновлюємо існуючу ракуна
-  const handleUpdateKoala = async (e) => {
+  // Оновлюємо існуючу ракуніву
+  const handleUpdateRakun = async (e) => {
     e.preventDefault();
     
     try {
       setLoading(true);
-      const response = await axios.put(`${API_BASE_URL}/rakuns/${currentKoala._id}`, formData);
-      const updatedKoala = response.data;
-      setKoalas(rakuns.map(rakun => 
-        rakun._id === currentKoala._id ? updatedKoala : rakun
+      const response = await axios.put(`${API_BASE_URL}/rakuns/${currentRakun._id}`, formData);
+      const updatedRakun = response.data;
+      setRakuns(rakuns.map(rakun => 
+        rakun._id === currentRakun._id ? updatedRakun : rakun
       ));
       setShowEditModal(false);
-      setToastMessage({ text: `Дані про ракуна"${updatedKoala.name}" оновлено!`, type: 'success' });
+      setToastMessage({ text: `Дані про ракуніву"${updatedRakun.name}" оновлено!`, type: 'success' });
 
     } catch (err) {
       setError(`Помилка при оновленні: ${err.message}`);
       setToastMessage({ text: `Помилка при оновленні: ${err.message}`, type: 'danger' });
-      console.error('Помилка при оновленні ракуніви:', err);
+      console.error('Помилка при оновленні ракуни:', err);
       
     } finally {
       setLoading(false);
@@ -153,24 +153,24 @@ function Rehabilitation() {  // Стан для зберігання даних 
    
   // Показуємо модальне вікно підтвердження видалення
   const handleShowDeleteModal = (rakun) => {
-    setKoalaToDelete(rakun);
+    setRakunToDelete(rakun);
     setShowDeleteModal(true);
   };
 
-  // Видаляємо ракуна
-  const handleDeleteKoala = async () => {
+  // Видаляємо ракуніву
+  const handleDeleteRakun = async () => {
     try {
       setLoading(true);
       await axios.delete(`${API_BASE_URL}/rakuns/${rakunToDelete._id}`);
-      setKoalas(rakuns.filter(rakun => rakun._id !== rakunToDelete._id));
+      setRakuns(rakuns.filter(rakun => rakun._id !== rakunToDelete._id));
       setToastMessage({ text: `Ракуніву "${rakunToDelete.name}" успішно видалено!`, type: 'success' });
       setShowDeleteModal(false); // Закриваємо модальне вікно
-      setKoalaToDelete(null); // Очищаємо дані ракуніви для видалення
+      setRakunToDelete(null); // Очищаємо дані ракуни для видалення
 
     } catch (err) {
       setError(`Помилка при видаленні: ${err.message}`);
       setToastMessage({ text: `Помилка при видаленні: ${err.message}`, type: 'danger' });
-      console.error('Помилка при видаленні ракуніви:', err);
+      console.error('Помилка при видаленні ракуни:', err);
 
     } finally {
       setLoading(false);
@@ -192,7 +192,7 @@ function Rehabilitation() {  // Стан для зберігання даних 
           onClick={handleShowAddModal}
           disabled={loading}
         >
-          Додати ракуна
+          Додати ракуніву
         </button>
       </header>
 
@@ -239,7 +239,7 @@ function Rehabilitation() {  // Стан для зберігання даних 
       
       {!loading && rakuns.length === 0 && (
         <section className="alert alert-info">
-          Немає доступних записів про ракунів у реабілітації. Додайте першу ракуна!
+          Немає доступних записів про ракунів у реабілітації. Додайте першу ракуніву!
         </section>
       )}
       
@@ -268,7 +268,7 @@ function Rehabilitation() {  // Стан для зберігання даних 
                   <td>{rakun.weight}</td>
                   <td>{rakun.gender === 'male' ? 'Самець' : 'Самиця'}</td>
                   <td>{rakun.description}</td>
-                  <td>{rakun.feedingHabits }</td>
+                  <td>{rakun.eatenEucalyptus}</td>
                   <td>{rakun.dateAdded ? formatDate(rakun.dateAdded) : 'Н/Д'}</td>
                   <td>
                     <button
@@ -295,23 +295,23 @@ function Rehabilitation() {  // Стан для зберігання даних 
         </section>
       )}
 
-      {/* Модальне вікно для додавання нової ракуніви */}
+      {/* Модальне вікно для додавання нової ракуни */}
       <div 
         className={`modal fade ${showAddModal ? 'show' : ''}`} 
-        id="addKoalaModal" 
+        id="addRakunModal" 
         tabIndex="-1" 
-        aria-labelledby="addKoalaModalLabel" 
+        aria-labelledby="addRakunModalLabel" 
         aria-hidden="true"
         style={{ display: showAddModal ? 'block' : 'none' }}
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <header className="modal-header">
-              <h2 className="modal-title h5" id="addKoalaModalLabel">Додати нову ракуна</h2>
+              <h2 className="modal-title h5" id="addRakunModalLabel">Додати нову ракуніву</h2>
               <button type="button" className="btn-close" onClick={() => setShowAddModal(false)} aria-label="Закрити"></button>
             </header>
             <div className="modal-body">
-              <form onSubmit={handleAddKoala}>
+              <form onSubmit={handleAddRakun}>
                 <fieldset>
                   <div className="row mb-3">
                     <label htmlFor="name" className="col-sm-3 col-form-label">Ім'я</label>
@@ -411,14 +411,14 @@ function Rehabilitation() {  // Стан для зберігання даних 
                   </div>
 
                   <div className="row mb-3">
-                    <label htmlFor="feedingHabits " className="col-sm-3 col-form-label">Кількість з'їденого листя евкаліпту за день, кг</label>
+                    <label htmlFor="eatenEucalyptus" className="col-sm-3 col-form-label">Кількість з'їденого листя евкаліпту за день, кг</label>
                     <div className="col-sm-9">
                       <input 
                         type="number" 
                         className="form-control" 
-                        id="feedingHabits " 
-                        name="feedingHabits " 
-                        value={formData.feedingHabits } 
+                        id="eatenEucalyptus" 
+                        name="eatenEucalyptus" 
+                        value={formData.eatenEucalyptus} 
                         onChange={handleInputChange}
                         required
                         min="0"
@@ -438,7 +438,7 @@ function Rehabilitation() {  // Стан для зберігання даних 
                         <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                         Зачекайте...
                       </>
-                    ) : 'Додати ракуна'}
+                    ) : 'Додати ракуніву'}
                   </button>
                 </footer>
               </form>
@@ -453,23 +453,23 @@ function Rehabilitation() {  // Стан для зберігання даних 
              onClick={() => setShowAddModal(false)}></div>
       )}
 
-      {/* Модальне вікно для редагування існуючої ракуніви */}
+      {/* Модальне вікно для редагування існуючої ракуни */}
       <div 
         className={`modal fade ${showEditModal ? 'show' : ''}`} 
-        id="editKoalaModal" 
+        id="editRakunModal" 
         tabIndex="-1" 
-        aria-labelledby="editKoalaModalLabel" 
+        aria-labelledby="editRakunModalLabel" 
         aria-hidden="true"
         style={{ display: showEditModal ? 'block' : 'none' }}
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <header className="modal-header">
-              <h2 className="modal-title h5" id="editKoalaModalLabel">Редагувати ракуна</h2>
+              <h2 className="modal-title h5" id="editRakunModalLabel">Редагувати ракуніву</h2>
               <button type="button" className="btn-close" onClick={() => setShowEditModal(false)} aria-label="Закрити"></button>
             </header>
             <div className="modal-body">
-              <form onSubmit={handleUpdateKoala}>
+              <form onSubmit={handleUpdateRakun}>
                 <fieldset>
                   <div className="row mb-3">
                     <label htmlFor="edit-name" className="col-sm-3 col-form-label">Ім'я</label>
@@ -569,14 +569,14 @@ function Rehabilitation() {  // Стан для зберігання даних 
                   </div>
 
                   <div className="row mb-3">
-                    <label htmlFor="edit-feedingHabits " className="col-sm-3 col-form-label">Кількість з'їденого листя евкаліпту за день, кг</label>
+                    <label htmlFor="edit-eatenEucalyptus" className="col-sm-3 col-form-label">Кількість з'їденого листя евкаліпту за день, кг</label>
                     <div className="col-sm-9">
                       <input 
                         type="number" 
                         className="form-control" 
-                        id="feedingHabits " 
-                        name="feedingHabits " 
-                        value={formData.feedingHabits } 
+                        id="eatenEucalyptus" 
+                        name="eatenEucalyptus" 
+                        value={formData.eatenEucalyptus} 
                         onChange={handleInputChange}
                         required
                         min="0"
@@ -610,24 +610,24 @@ function Rehabilitation() {  // Стан для зберігання даних 
              onClick={() => setShowEditModal(false)}></div>
       )}
 
-      {/* Модальне вікно для підтвердження видалення ракуніви */}
+      {/* Модальне вікно для підтвердження видалення ракуни */}
       <div 
         className={`modal fade ${showDeleteModal ? 'show' : ''}`} 
-        id="deleteKoalaModal" 
+        id="deleteRakunModal" 
         tabIndex="-1" 
-        aria-labelledby="deleteKoalaModalLabel" 
+        aria-labelledby="deleteRakunModalLabel" 
         aria-hidden="true"
         style={{ display: showDeleteModal ? 'block' : 'none' }}
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <header className="modal-header">
-              <h2 className="modal-title h5" id="deleteKoalaModalLabel">Підтвердження видалення</h2>
+              <h2 className="modal-title h5" id="deleteRakunModalLabel">Підтвердження видалення</h2>
               <button type="button" className="btn-close" onClick={() => setShowDeleteModal(false)} aria-label="Закрити"></button>
             </header>
             <div className="modal-body">
               {rakunToDelete && (
-                <p>Ви впевнені, що хочете видалити ракуна <strong>{rakunToDelete.name}</strong>?</p>
+                <p>Ви впевнені, що хочете видалити ракуніву <strong>{rakunToDelete.name}</strong>?</p>
               )}
             </div>
             <footer className="modal-footer">              <button type="button" className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
@@ -636,7 +636,7 @@ function Rehabilitation() {  // Стан для зберігання даних 
               <button 
                 type="button" 
                 className="btn btn-danger" 
-                onClick={handleDeleteKoala}
+                onClick={handleDeleteRakun}
                 disabled={loading}
               >
                 {loading ? (

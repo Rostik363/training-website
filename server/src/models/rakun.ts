@@ -2,13 +2,13 @@ import { Schema, model } from 'mongoose';
 
 // Інтерфейс для об'єкта "Ракун"
 interface IRakun {
-    name: string; // Ім'я зракуна
-    age: number; // Вік зракуна у роках
-    height: number; // Висота зракуна в сантиметрах
-    weight: number; // Вага зракуна в кілограмах
-    gender: 'male' | 'female'; // Стать зракуна: 'male' - самець, 'female' - самка
-    description?: string; // Опис зракуна (необов'язкове поле)
-    feedingHabits: string; //111
+    name: string; // Ім'я ракуни
+    age: number; // Вік ракуни у роках
+    height: number; // Висота ракуни в сантиметрах
+    weight: number; // Вага ракуни в кілограмах
+    gender: 'male' | 'female'; // Стать ракуни: 'male' - самець, 'female' - самка
+    description?: string; // Опис ракуни (необов'язкове поле)
+    eatenEucalyptus: string; // Кількість з'їденого листя евкаліпту за день, кг
     dateAdded: Date; // Дата додавання запису до бази даних
 }
 
@@ -40,9 +40,9 @@ const rakunSchema = new Schema<IRakun>({
         type: Date,
         default: Date.now, // Значення за замовчуванням - поточна дата і час
     },
-    feedingHabits: {
+    eatenEucalyptus: {
         type: String,
-        required: true,
+        required: true, // Поле є обов'язковим
     },
 });
 
