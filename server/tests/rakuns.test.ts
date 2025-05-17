@@ -1,4 +1,4 @@
-npm run server:testimport 'reflect-metadata';
+import 'reflect-metadata';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/server';
